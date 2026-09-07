@@ -81,3 +81,9 @@ illustrative purposes. Replace this file with any experimentally obtained
 
 
 ## Notes
+
+- Random seeds are fixed in both scripts (`np.random.default_rng(...)`)
+  for reproducibility of the simulated figures.
+- If re-running produces a `FileNotFoundError`, check that the `INPUT`
+  and `OUT` path variables at the top of `master_figures.py` correctly
+  point to your local `input/` and `output/` folders.
