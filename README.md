@@ -1,5 +1,5 @@
 # MFXerrorsSuppl
-# Supplementary Code
+
 
 
 This repository contains the Python code used to generate the quantitative
