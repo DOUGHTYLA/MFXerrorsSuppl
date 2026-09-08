@@ -67,7 +67,6 @@ complete e.g.:
 All output figures are written to `output/` in PDF, PNG and SVG (where 
 applicable).
 
-## Figure Descriptions
 
 ## Data
 
