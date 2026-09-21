@@ -91,21 +91,18 @@ def draw_geo(ax, r, fx, fy, N, b, title):
         ax.plot(px, py, "o", color="#5b8dd9", ms=6, zorder=5,
                 markeredgecolor="white", markeredgewidth=0.7)
     ax.plot(0, 0, "+", color="#5b8dd9", ms=8, mew=1.5, zorder=5)
-    ax.plot(fx, fy, "o", color="#e74c3c", ms=9, zorder=6,
-            markeredgecolor="white", markeredgewidth=1.0)
-    ax.plot(ex, ey, "s", color="#27ae60", ms=8, zorder=6,
-            markeredgecolor="white", markeredgewidth=1.0)
+    Line2D([0],[0], marker="x", color="#bc13fe", markersize=10, mew=2.0,
+           linestyle="none", label="True position"),
+    Line2D([0],[0], marker="+", color="#27ae60", markersize=10, mew=2.0,
+           linestyle="none", label="Estimated position"),ax.plot(fx, fy, "x", color="#bc13fe", ms=10, mew=2.0, zorder=6)
+    ax.plot(ex, ey, "+", color="#27ae60", ms=10, mew=2.0, zorder=6)
     if b > 0:
         dx, dy = ex - fx, ey - fy
         dist = np.sqrt(dx**2 + dy**2)
-        ax.annotate("", xy=(ex, ey), xytext=(fx, fy),
-                    arrowprops=dict(arrowstyle="->", color="#555",
-                                   lw=1.2, mutation_scale=12))
+        
         perp_x = -dy/dist * 0.22
         perp_y =  dx/dist * 0.22
-        ax.text((fx+ex)/2 + perp_x, (fy+ey)/2 + perp_y, "bias",
-                ha="center", va="center", fontsize=7.5, color="#555",
-                bbox=dict(fc="white", ec="none", pad=1.5))
+        
     ax.set_xlim(-r*1.55, r*1.55)
     ax.set_ylim(-r*1.55, r*1.55)
     ax.set_aspect("equal"); ax.axis("off")
@@ -120,10 +117,12 @@ def draw_hist(ax, probes, counts, b):
     if b > 0:
         ax.bar(x, [b]*len(probes), bottom=sig,
                color="#e74c3c", alpha=0.80, zorder=3)
-        ax.axhline(b, color="#e74c3c", lw=1.0, ls=":", alpha=0.7)
+        ax.axhline(b, color="#e74c3c", lw=1.0, ls="--", alpha=0.7)
+        ax.text(len(probes) - 0.3, b, " $b$", ha="left", va="center",
+                fontsize=9, color="#e74c3c")
     ax.set_xticks(x); ax.set_xticklabels(labels, fontsize=7.5)
     ax.set_ylabel("EFO (kHz)", fontsize=8)
-    ax.set_ylim(0, 1.55)
+    ax.set_ylim(0, 105)
     ax.tick_params(axis="y", labelsize=7.5)
     ax.spines[["top","right"]].set_visible(False)
     ax.set_xlabel("Probe position", fontsize=8)
@@ -147,11 +146,11 @@ draw_hist(ax_h1, p1, c1, B_NO)
 draw_hist(ax_h2, p2, c2, B_YES)
 
 legend_elements = [
-    Line2D([0],[0], marker="o", color="w", markerfacecolor="#e74c3c",
-           markersize=9,  label="True position"),
-    Line2D([0],[0], marker="s", color="w", markerfacecolor="#27ae60",
-           markersize=8,  label="Estimated position"),
-    Line2D([0],[0], color="#2e86c1", lw=6, alpha=0.88, label="Signal counts"),
+    Line2D([0],[0], marker="x", color="#bc13fe", markersize=10, mew=2.0,
+           linestyle="none", label="True position"),
+    Line2D([0],[0], marker="+", color="#27ae60", markersize=10, mew=2.0,
+           linestyle="none", label="Estimated position"),
+    Line2D([0],[0], color="#2e86c1", lw=6, alpha=0.88, label="Signal (EFO)"),
     Line2D([0],[0], color="#e74c3c", lw=6, alpha=0.80, label="Background ($b$)"),
 ]
 fig2a.legend(handles=legend_elements, loc="lower center", ncol=4,
@@ -161,7 +160,6 @@ fig2a.savefig(OUT + "fig2a_centrepull.pdf", dpi=300, bbox_inches="tight")
 fig2a.savefig(OUT + "fig2a_centrepull.png", dpi=300, bbox_inches="tight")
 plt.close(fig2a)
 print("✓ fig2a_centrepull")
-
 
 # FIGURE 2b — SBR precision degradation curve
 
@@ -241,10 +239,10 @@ N_ax = np.logspace(np.log10(1), np.log10(1e5), 600)
 ls_styles = ["-", "--", ":"]
 alphas_ls  = [1.0, 0.85, 0.85]
 
-fig3 = plt.figure(figsize=(7.2, 5.8))
+fig3 = plt.figure(figsize=(7.2, 7.2))
 gs3  = gridspec.GridSpec(2, 1, figure=fig3,
-                          height_ratios=[1.15, 1],
-                          hspace=0.52,
+                          height_ratios=[1.15, 1.55],
+                          hspace=0.42,
                           left=0.07, right=0.97,
                           top=0.96, bottom=0.06)
 ax3a = fig3.add_subplot(gs3[0])
@@ -312,7 +310,7 @@ ax3a.text(-0.07, 1.02, "a", transform=ax3a.transAxes,
           fontsize=11, fontweight="bold", va="top")
 
 #  Panel b: SMLM PSF grid + MINFLUX scatter grid 
-gs3b = gridspec.GridSpecFromSubplotSpec(2, 6, subplot_spec=gs3[1],
+gs3b = gridspec.GridSpecFromSubplotSpec(3, 6, subplot_spec=gs3[1],
                                         hspace=0.10, wspace=0.06)
 
 # Build 40nm bead + Gaussian PSF template (oversampled)
@@ -337,11 +335,14 @@ ax_half = 15.0
 
 gs3b_pos = gs3[1].get_position(fig3)
 lx_label = gs3b_pos.x0 - 0.045
-fig3.text(lx_label, gs3b_pos.y0 + gs3b_pos.height*0.76,
-          "SMLM",    va="center", ha="left", fontsize=7.5,
+fig3.text(lx_label, gs3b_pos.y0 + gs3b_pos.height*0.84,
+          "Camera", va="center", ha="left", fontsize=7.5,
           style="italic", color="#333333", rotation=90)
-fig3.text(lx_label, gs3b_pos.y0 + gs3b_pos.height*0.24,
-          "MINFLUX", va="center", ha="left", fontsize=7.5,
+fig3.text(lx_label, gs3b_pos.y0 + gs3b_pos.height*0.50,
+          "SMLM",   va="center", ha="left", fontsize=7.5,
+          style="italic", color="#333333", rotation=90)
+fig3.text(lx_label, gs3b_pos.y0 + gs3b_pos.height*0.16,
+          "MINFLUX",    va="center", ha="left", fontsize=7.5,
           style="italic", color="#333333", rotation=90)
 
 for col, N in enumerate(N_SMLM):
@@ -358,8 +359,34 @@ for col, N in enumerate(N_SMLM):
         ax.text(-0.35, 1.08, "b", transform=ax.transAxes,
                 fontsize=11, fontweight="bold", va="top")
 
-for col, N in enumerate(N_MF_g):
+#  Middle row: SMLM position-estimate scatter (Thompson-Mortensen precision) 
+# Samples drawn from N(0, sigma_TM(N, b2_grid)^2) to mirror the analytical
+# treatment used in the MINFLUX row below; column N values match the top row.
+for col, N in enumerate(N_SMLM):
     ax = fig3.add_subplot(gs3b[1, col])
+    sig = sigma_TM(N, b2_grid)
+    xy  = rng.normal(0, sig, size=(300, 2))
+    ax.scatter(xy[:,0], xy[:,1], s=2.5, color=BLUE,
+               alpha=0.45, linewidths=0, rasterized=True)
+    ax.set_xlim(-ax_half, ax_half); ax.set_ylim(-ax_half, ax_half)
+    ax.set_aspect("equal")
+    ax.axhline(0, color="black", lw=0.3, alpha=0.2)
+    ax.axvline(0, color="black", lw=0.3, alpha=0.2)
+    ax.set_xticks([]); ax.set_yticks([])
+    for sp in ["top","right"]: ax.spines[sp].set_visible(False)
+    for sp in ["left","bottom"]: ax.spines[sp].set_color("#aaaaaa")
+    sig_lbl = (f"$\\sigma\\!=\\!{sig:.1f}$nm" if sig < 10
+               else f"$\\sigma\\!=\\!{sig:.0f}$nm")
+    ax.text(0.97, 0.04, sig_lbl,
+            transform=ax.transAxes, fontsize=6, color=BLUE,
+            va="bottom", ha="right")
+    lbl = f"$N\\!={N}$" if N < 1000 else f"$N\\!=\\!{N//1000}$k"
+    ax.text(0.03, 0.96, lbl,
+            transform=ax.transAxes, fontsize=6.5,
+            color="#333333", va="top", fontweight="bold")
+
+for col, N in enumerate(N_MF_g):
+    ax = fig3.add_subplot(gs3b[2, col])
     sig = sigma_MF(N)
     xy  = rng.normal(0, sig, size=(300, 2))
     ax.scatter(xy[:,0], xy[:,1], s=2.5, color=ORANGE,
