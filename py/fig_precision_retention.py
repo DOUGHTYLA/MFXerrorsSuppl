@@ -29,12 +29,20 @@ from matplotlib.ticker import MultipleLocator
 
 mpl.rcParams.update({
     "font.family": "sans-serif",
-    "font.sans-serif": ["Arial", "Helvetica", "DejaVu Sans"],
+    "font.sans-serif": ["Helvetica", "Arial", "DejaVu Sans"],
+    "mathtext.fontset": "custom",
+    "mathtext.rm": "Helvetica",
+    "mathtext.it": "Helvetica:italic",
+    "mathtext.bf": "Helvetica:bold",
     "font.size": 8,
-    "axes.linewidth": 0.8,
+    "axes.linewidth": 1.0,
     "axes.labelsize": 9,
     "xtick.labelsize": 8,
     "ytick.labelsize": 8,
+    "xtick.major.width": 1.0,
+    "ytick.major.width": 1.0,
+    "xtick.minor.width": 1.0,
+    "ytick.minor.width": 1.0,
     "legend.fontsize": 7.5,
     "xtick.direction": "in",
     "ytick.direction": "in",
@@ -48,7 +56,7 @@ mpl.rcParams.update({
     "svg.fonttype": "none",  # editable text in SVG
 })
 
-# Perceptually clean accent colours (no rainbow)
+
 C_PREC = "#1f4e79"   # deep blue  -> precision
 C_RET  = "#c1452d"   # brick red  -> retained fraction
 C_POOL = "#9aa7b1"   # grey       -> raw pool / reference

@@ -4,7 +4,7 @@ Produces all Python/matplotlib figures for:
   Doughty et al.
 
 Figures produced:
-  fig2  — beam quality diagnostic: real vs theoretical LG01 beam
+  fig2  - beam quality diagnostic: real vs theoretical LG01 beam
            panels a-c (real) + d-f (theoretical) → donut_comparison.pdf/png
            NOTE: requires xy_nanoparticle_alignment_donut.tif in INPUT dir.
   fig3  — centre-pull bias schematic (panel a) +
@@ -40,19 +40,25 @@ os.makedirs(OUT, exist_ok=True)
 
 
 plt.rcParams.update({
-    "font.family":       "sans-serif",
+    "font.family":       "Helvetica",
     "font.size":         8,
     "axes.labelsize":    9,
-    "axes.linewidth":    0.7,
+    "axes.linewidth":    1.0,
     "xtick.labelsize":   7.5,
     "ytick.labelsize":   7.5,
-    "xtick.major.width": 0.7,
-    "ytick.major.width": 0.7,
+    "xtick.major.width": 1.0,
+    "ytick.major.width": 1.0,
     "xtick.minor.width": 0.4,
     "ytick.minor.width": 0.4,
     "lines.linewidth":   1.8,
     "legend.fontsize":   7.5,
+    "mathtext.fontset":  "custom",
+    "mathtext.rm":       "Helvetica",
+    "mathtext.it":       "Helvetica:italic",
+    "mathtext.bf":       "Helvetica:bold",
 })
+
+
 
 BLUE   = "#1f77b4"
 ORANGE = "#ff7f0e"
@@ -606,7 +612,7 @@ gs2  = gridspec.GridSpec(2, 3, figure=fig2,
 bq_rows = [
     ("Real beam",                        lum_display, CX_REAL_UM,  CY_REAL_UM,
      w_r, h_r, rp_r, az_r, res_r, rd_r),
-    ("Theoretical beam (LG$^0_1$ mode)", beam_theo,   CX_THEO_UM,  CY_THEO_UM,
+    ("Theoretical beam (LG$_{01}$ mode)", beam_theo,   CX_THEO_UM,  CY_THEO_UM,
      w_s, h_s, rp_t, az_t, res_t, rd_t),
 ]
 bq_labels = [["a","b","c"], ["d","e","f"]]
