@@ -48,8 +48,8 @@ plt.rcParams.update({
     "ytick.labelsize":   7.5,
     "xtick.major.width": 1.0,
     "ytick.major.width": 1.0,
-    "xtick.minor.width": 0.4,
-    "ytick.minor.width": 0.4,
+    "xtick.minor.width": 1.0,
+    "ytick.minor.width": 1.0,
     "lines.linewidth":   1.8,
     "legend.fontsize":   7.5,
     "mathtext.fontset":  "custom",
@@ -96,18 +96,9 @@ def draw_geo(ax, r, fx, fy, N, b, title):
     for px, py in probes[:6]:
         ax.plot(px, py, "o", color="#5b8dd9", ms=6, zorder=5,
                 markeredgecolor="white", markeredgewidth=0.7)
-    ax.plot(0, 0, "+", color="#5b8dd9", ms=8, mew=1.5, zorder=5)
-    Line2D([0],[0], marker="x", color="#bc13fe", markersize=10, mew=2.0,
-           linestyle="none", label="True position"),
-    Line2D([0],[0], marker="+", color="#27ae60", markersize=10, mew=2.0,
-           linestyle="none", label="Estimated position"),ax.plot(fx, fy, "x", color="#bc13fe", ms=10, mew=2.0, zorder=6)
-    ax.plot(ex, ey, "+", color="#27ae60", ms=10, mew=2.0, zorder=6)
-    if b > 0:
-        dx, dy = ex - fx, ey - fy
-        dist = np.sqrt(dx**2 + dy**2)
-        
-        perp_x = -dy/dist * 0.22
-        perp_y =  dx/dist * 0.22
+        ax.plot(0, 0, "+", color="#5b8dd9", ms=8, mew=1.5, zorder=5)
+        ax.plot(fx, fy, "x", color="#bc13fe", ms=10, mew=2.0, zorder=6)
+        ax.plot(ex, ey, "+", color="#27ae60", ms=10, mew=2.0, zorder=6)
         
     ax.set_xlim(-r*1.55, r*1.55)
     ax.set_ylim(-r*1.55, r*1.55)
@@ -514,6 +505,17 @@ fig5.legend(handles=legend_elements4, loc="lower center", ncol=3,
              fontsize=7.5, frameon=False, bbox_to_anchor=(0.5, -0.04))
 
 plt.tight_layout(rect=[0, 0.08, 1, 1])
+fig5.canvas.draw()
+renderer = fig5.canvas.get_renderer()
+inv = fig5.transFigure.inverted()
+title_top = max(
+    ax.title.get_window_extent(renderer).transformed(inv).y1 for ax in axes5
+)
+for ax, lbl in zip(axes5, ["a", "b", "c"]):
+    pos = ax.get_position()
+    fig5.text(pos.x0 - 0.045, title_top, lbl,
+              fontsize=11, fontweight="bold", color="black",
+              va="top", ha="left", transform=fig5.transFigure)
 fig5.savefig(OUT + "fig5_distributions.pdf", dpi=300, bbox_inches="tight")
 fig5.savefig(OUT + "fig5_distributions.png", dpi=300, bbox_inches="tight")
 plt.close(fig5)
