@@ -31,7 +31,7 @@ authors:
     affiliation: "Department of Biochemistry and Molecular Biology, University of Southern Denmark"
     orcid: "https://orcid.org/0000-0002-3444-1715"
 repository-code: "https://github.com/DOUGHTYLA/MFXerrorsSuppl"
-license: MIT
+license: CC BY 4.0
 keywords:
   - MINFLUX
   - super-resolution microscopy
