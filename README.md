@@ -14,7 +14,7 @@ figures in:
 | File | Produces |
 |---|---|
 | `fig_precision_retention.py` | Figure 4 (precision-retention curve) |
-| `master_figures.py` | Figures 1, 2, 3 and 5 (panel b) |
+| `master_figures.py` | Figures 1, 2, 3 and 5 |
 | `input/xy_nanoparticle_alignment_donut.tif` | Raw beam back-scatter image used by `master_figures.py` |
 
 ## Requirements
