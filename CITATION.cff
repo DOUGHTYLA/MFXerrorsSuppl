@@ -15,22 +15,22 @@ abstract: >-
 authors:
   - family-names: "Doughty"
     given-names: "Luke A."
-    affiliation: "University of Bristol"
+    affiliation: "Bristol Medical School, University of Bristol"
+    email: "luke.doughty@bristol.ac.uk"
     orcid: "https://orcid.org/0009-0002-9342-5456"
   - family-names: "Mebus"
     given-names: "Viktor H."
-    email: "viktorhm@bmb.sdu.dk"
     affiliation: "Department of Biochemistry and Molecular Biology, University of Southern Denmark"
     orcid: "https://orcid.org/0009-0009-2332-2866"
   - family-names: "Alibhai"
     given-names: "Dominic"
-    affiliation: "University of Bristol"
+    affiliation: "Wolfson Bioimaging Facility, University of Bristol"
     orcid: "https://orcid.org/0000-0001-5421-4424"
   - family-names: "Brewer"
     given-names: "Jonathan R."
     affiliation: "Department of Biochemistry and Molecular Biology, University of Southern Denmark"
     orcid: "https://orcid.org/0000-0002-3444-1715"
-repository-code: "https://github.com/<your-username>/MFXerrorsSuppl"
+repository-code: "https://github.com/DOUGHTYLA/MFXerrorsSuppl"
 license: MIT
 keywords:
   - MINFLUX
