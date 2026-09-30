@@ -1,5 +1,6 @@
 # MFXerrorsSuppl
 
+[![DOI](https://zenodo.org/badge/1360227155.svg)](https://doi.org/10.5281/zenodo.23028868)
 
 
 This repository contains the Python code used to generate the quantitative
